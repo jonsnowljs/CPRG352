@@ -9,15 +9,21 @@
     <body>
         <h1>Arithmetic Calculator</h1>
         <form action="arithmetic" method="post">
-            <label for="first">First:</label>
-            <input id="first" name="first" type="number">
-            <label for="second">Second:</label>
-            <input id="second" name="second" type="number">
-            
-            <button type="submit" name="btn" value="add">+</button>
-            <button type="submit" name="btn" value="sub">-</button>
-            <button type="submit" name="btn" value="mul">*</button>
-            <button type="submit" name="btn" value="mod">%</button>
+            <div>                
+                <label for="first">First:</label>
+                <input id="first" name="first" type="number">
+            </div>
+            <div>
+                <label for="second">Second:</label>
+                <input id="second" name="second" type="number">
+            </div>
+            <div>
+                <button type="submit" name="btn" value="add">+</button>
+                <button type="submit" name="btn" value="sub">-</button>
+                <button type="submit" name="btn" value="mul">*</button>
+                <button type="submit" name="btn" value="mod">%</button>    
+            </div>
+
 
         </form>
         <p>Result:${result}</p>
