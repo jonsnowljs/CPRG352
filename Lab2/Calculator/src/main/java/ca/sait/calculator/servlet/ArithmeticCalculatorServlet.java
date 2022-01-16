@@ -50,7 +50,7 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
         String firString = request.getParameter("first");
         String secString = request.getParameter("second");
 
-        if (firString == "" && secString == "") {
+        if (firString == null && secString == null) {
             result = "---";
         } else if (firString != null && secString != null) {
             try {

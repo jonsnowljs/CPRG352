@@ -27,7 +27,7 @@
 
         </form>
         <p>Result:${result}</p>
-        <a href="./age">Arithmetic Calculator</a>
+        <a href="./age">Age Calculator</a>
 
     </body>
 </html>
