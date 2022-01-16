@@ -69,7 +69,7 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
                         intResult = first * second;
                         break;
                     case "mod":
-                        intResult = first % second;
+                        intResult = first / second;
                         break;
                 }
                 result = String.valueOf(intResult);
