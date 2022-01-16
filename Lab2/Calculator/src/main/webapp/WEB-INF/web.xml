@@ -4,9 +4,17 @@
         <servlet-name>AgeCalculatorServlet</servlet-name>
         <servlet-class>ca.sait.calculator.servlet.AgeCalculatorServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ArithmeticCalculatorServlet</servlet-name>
+        <servlet-class>ca.sait.calculator.servlet.ArithmeticCalculatorServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AgeCalculatorServlet</servlet-name>
         <url-pattern>/age</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ArithmeticCalculatorServlet</servlet-name>
+        <url-pattern>/arithmetic</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
