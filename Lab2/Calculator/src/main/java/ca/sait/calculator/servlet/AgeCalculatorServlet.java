@@ -36,9 +36,9 @@ public class AgeCalculatorServlet extends HttpServlet {
                 int age = Integer.parseInt(ageString);
                 int ageNextBirthday = age + 1;
 
-                request.setAttribute("message", "You will be " + ageNextBirthday + " after your next birthday");
+                request.setAttribute("message", "You age next birthday will be " + ageNextBirthday);
             } catch (Exception e) {
-                request.setAttribute("message", "invalid age submitted");
+                request.setAttribute("message", "You must give your current age");
             }
 
         } else {
@@ -46,15 +46,5 @@ public class AgeCalculatorServlet extends HttpServlet {
         }
         getServletContext().getRequestDispatcher("/WEB-INF/agecalculator.jsp").forward(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }
