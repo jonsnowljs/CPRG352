@@ -22,3 +22,10 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+/Lab2/HelloWorld/nbproject/private/
+
+*.docx
+*.pdf
+lab2/HelloWorld
+/Lab2/HelloWorld/build/
+/Lab3/Week4Lab_SimpleNoteKeeper/nbproject/private/

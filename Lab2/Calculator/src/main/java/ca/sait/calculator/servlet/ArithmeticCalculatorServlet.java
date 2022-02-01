@@ -49,11 +49,11 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
         String result = "---";
         String firString = request.getParameter("first");
         String secString = request.getParameter("second");
+        try {
+            if (firString == null && secString == null) {
+                result = "---";
+            } else if (firString != null && secString != null) {
 
-        if (firString == null && secString == null) {
-            result = "---";
-        } else if (firString != null && secString != null) {
-            try {
                 int first = Integer.parseInt(firString);
                 int second = Integer.parseInt(secString);
                 int intResult = 0;
@@ -73,14 +73,13 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
                         break;
                 }
                 result = String.valueOf(intResult);
-            } catch (Exception e) {
+
+            } else {
                 result = "invalid";
             }
-
-        } else {
+        } catch (Exception e) {
             result = "invalid";
         }
-
         request.setAttribute("result", result);
         getServletContext().getRequestDispatcher("/WEB-INF/arithmaticcalculator.jsp").forward(request, response);
 
