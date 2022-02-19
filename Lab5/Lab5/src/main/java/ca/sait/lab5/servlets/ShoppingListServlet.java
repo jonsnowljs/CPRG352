@@ -38,6 +38,7 @@ public class ShoppingListServlet extends HttpServlet {
 
         if (name == null) {
             getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
+            return;
         } else {
             getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
         }
@@ -55,23 +56,26 @@ public class ShoppingListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         String action = request.getParameter("action");
 
         if (action != null && action.equals("add")) {
             String item = request.getParameter("item");
-            ArrayList<String> items = session.getAttribute("items");
+            ArrayList<String> items = (ArrayList<String>) session.getAttribute("items");
             items.add(item);
-            
-            session.setAttribute("items",items);
-                        
-            
+
+            session.setAttribute("items", items);
+        } else if (action != null && action.equals("delete")) {
+            String item = request.getParameter("item");
+            ArrayList<String> items = (ArrayList<String>) session.getAttribute("items");
+            items.remove(item);
+            session.setAttribute("items", items);
         } else {
+
             String name = request.getParameter("name");
 
-            HttpSession session = request.getSession();
+            ArrayList<String> items = new ArrayList<>();
 
-            ArrayList<String> items = new Arraylist<>();
-            
             session.setAttribute("name", name);
             session.setAttribute("item", items);
 
