@@ -25,7 +25,7 @@
         </form>
         <form action="ShoppingList" method="post">
             <input type="hidden" name="action" value="delete">
-            <c:forEach item="${items}" var="item">
+            <c:forEach items="${items}" var="item">
                 <p>
                     <input type="radio" name="item" value="$(item)">
                     $(item)
