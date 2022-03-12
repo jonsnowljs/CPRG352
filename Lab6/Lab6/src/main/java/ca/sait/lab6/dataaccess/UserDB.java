@@ -106,16 +106,15 @@ public class UserDB {
         ConnectionPool cp = ConnectionPool.getInstance();
         Connection con = cp.getConnection();
         PreparedStatement ps = null;
-        String sql = "UPDATE user SET `first_name` = ?, `last_name` = ?, `password` = ?, `role` = ? WHERE `email` = ?";
+        String sql = "UPDATE user SET first_name = ?, last_name = ?, role = ? WHERE email = ?";
 
         boolean updated;
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, user.getFirstName());
             ps.setString(2, user.getLastName());
-            ps.setString(2, user.getPassword());
-            ps.setInt(4, user.getRole().getId());
-            ps.setString(5, user.getEmail());
+            ps.setInt(3, user.getRole().getId());
+            ps.setString(4, user.getEmail());
             updated = ps.executeUpdate() != 0;
         } finally {
             DBUtil.closePreparedStatement(ps);
@@ -130,7 +129,7 @@ public class UserDB {
         Connection con = cp.getConnection();
         PreparedStatement ps = null;
 //        String sql = "DELETE FROM user WHERE email=?";
-        String sql = "UPDATE user SET active = 0 WHERE email = ?";
+        String sql = "DELETE FROM user WHERE email = ?";
 
         boolean deleted;
 

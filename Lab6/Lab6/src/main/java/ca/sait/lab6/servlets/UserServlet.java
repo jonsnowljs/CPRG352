@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -32,16 +33,34 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        UserService service = new UserService();
+        UserService userService = new UserService();
+        try {
+            String selectedEmail = request.getParameter("selectedEmail");
+            String action = request.getParameter("action");
+
+            switch (action) {
+                case "delete":
+                    userService.delete(selectedEmail);
+                    break;
+
+                case "edit":
+                    User user = userService.get(selectedEmail);
+                    request.setAttribute("selectedUser", user);
+                    break;
+
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         try {
-            List<User> users = service.getAll();
-
+            List<User> users = userService.getAll();
             request.setAttribute("users", users);
 
         } catch (Exception ex) {
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
 
     }
@@ -60,28 +79,47 @@ public class UserServlet extends HttpServlet {
         RoleService roleService = new RoleService();
         UserService userService = new UserService();
 
+        String selectedEmail = request.getParameter("selectedEmail");
+        String action = request.getParameter("postAction");
         String email = request.getParameter("email");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String password = request.getParameter("password");
-        String roleString = request.getParameter("role");
+        int roleId = Integer.parseInt(request.getParameter("role"));
         Role role = null;
 
         try {
+            List<User> users = userService.getAll();
             List<Role> roles = roleService.getAll();
             for (Role rol : roles) {
-                if (roleString.equals(rol.getName())) {
-                    role = new Role(rol.getId(), roleString);
+                if (roleId == rol.getId()) {
+                    role = new Role(roleId, rol.getName());
                 }
+            }
+
+            switch (action) {
+                case "add":
+                    userService.insert(email, true, firstName, lastName, password, role);
+
+                case "update":
+                    userService.update(selectedEmail, userService.get(email).isActive(), firstName, lastName, userService.get(email).getPassword(), role);
+                    break;
+                case "cancel":
+                    User user = new User();
+                    request.setAttribute("selectedUser", user);
+                    break;
+
             }
         } catch (Exception ex) {
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+
         }
 
+        // update the users variable so jsp file can read it.
         try {
-            userService.insert(email, true, firstName, lastName, password, role);
+            List<User> users = userService.getAll();
+            request.setAttribute("users", users);
         } catch (Exception ex) {
-            System.out.println("Insert failed");
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 

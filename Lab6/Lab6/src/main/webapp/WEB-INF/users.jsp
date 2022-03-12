@@ -22,11 +22,12 @@
                             <input type="text" name="lastName" class="form-control" placeholder="Last Name">
                             <input type="password" name="password"  class="form-control" placeholder="Password">
                             <select name="role" class="form-select" >
-                                <option selected>system admin</option>
-                                <option value="">regular user</option>
-                                <option value="">company admin</option>
+                                <option value="1" selected>system admin</option>
+                                <option value="2">regular user</option>
+                                <option value="3">company admin</option>
                             </select>
                             <input type="submit" value="Save" class="form-control btn btn-primary">   
+                            <input type="hidden" name="postAction" value="add">
 
                         </table>
 
@@ -51,11 +52,20 @@
                                     <td>${user.lastName}</td>
                                     <td>${user.active ? "Y" : "N"}</td>
 
-                                    <td>
-                                        <a href="notes?action=edit">Edit</a>
-                                        <a href="notes?action=delete">Delete</a>
-                                    </td>
+                                    <c:url value="user" var="editURL">
+                                        <c:param name="action" value="edit"/>
+                                        <c:param name="selectedEmail" value="${user.email}"/>
+                                    </c:url>
+                                    <c:url value="user" var="deleteURL">
+                                        <c:param name="action" value="delete"/>
+                                        <c:param name="selectedEmail" value="${user.email}"/>
+                                    </c:url>
 
+
+                                    <td>
+                                        <a href="${editURL}">Edit</a>
+                                        <a href="${deleteURL}">Delete</a>
+                                    </td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -65,19 +75,25 @@
                     <h2 class="text-center">Edit User</h2>
                     <form method="post">
                         <table class="table">
-                            <input type="" class="form-control" placeholder="Email">
-                            <input class="form-control" placeholder="First Name">
-                            <input class="form-control" placeholder="Last Name">
-                            <select class="form-select" aria-label="Default select example">
-                                <option value="system admin" selected>system admin</option>
-                                <option value="regular user">regular user</option>
-                                <option value="company admin">company admin</option>
+                            <input type="" class="form-control" name="email" placeholder="Email" value="${selectedUser.email}" readonly>
+                            <input class="form-control" name="firstName" placeholder="First Name" value="${selectedUser.firstName}">
+                            <input class="form-control" name="lastName" placeholder="Last Name" value="${selectedUser.lastName}">
+                            <select class="form-select" name="role" value="${selectedUser.role.id}">
+                                <option value="1">system admin</option>
+                                <option value="2">regular user</option>
+                                <option value="3">company admin</option>
                             </select>
-                            <input type="submit" class="form-control btn btn-primary" value="Save">
-                            <input type="submit" class="form-control tn btn-secondary" value="Cancel">   
 
+                            <input type="submit" class="form-control btn btn-primary" value="Update">
+                            <input type="hidden" name="selectedEmail" value="${selectedUser.email}">
+                            <input type="hidden" name="postAction" value="update">
                         </table>
 
+                    </form>
+                    <form>
+                        <input type="submit" class="form-control tn btn-secondary" value="Cancel">   
+                        <input type="hidden" name="selectedEmail" value="${selectedUser.email}">
+                        <input type="hidden" name="postAction" value="cancel">
                     </form>
                 </div>
             </div>
