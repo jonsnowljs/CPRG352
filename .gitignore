@@ -34,3 +34,7 @@ lab2/HelloWorld
 **/*Demo
 /Lab5/Lab5/target/
 /Lab6/Lab6/target/
+/Test/WebApplication1/nbproject/private/
+/Test/WebApplication1/build/
+/Test/*
+WebApplication1/*

@@ -81,17 +81,18 @@ public class UserDB {
         ConnectionPool cp = ConnectionPool.getInstance();
         Connection con = cp.getConnection();
         PreparedStatement ps = null;
-        String sql = "INSERT INTO userdb.`user` (email, active, first_name, last_name, password, `role`) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO user (email, active, first_name, last_name, password, `role`) VALUES (?,?,?,?,?,?)";
 
         boolean inserted;
 
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, user.getEmail());
-            ps.setString(2, user.getFirstName());
-            ps.setString(3, user.getLastName());
-            ps.setString(4, user.getPassword());
-            ps.setInt(5, user.getRole().getId());
+            ps.setBoolean(2, user.isActive());
+            ps.setString(3, user.getFirstName());
+            ps.setString(4, user.getLastName());
+            ps.setString(5, user.getPassword());
+            ps.setInt(6, user.getRole().getId());
             inserted = ps.executeUpdate() != 0;
 //            ps.executeUpdate();
         } finally {
@@ -115,12 +116,12 @@ public class UserDB {
             ps.setString(2, user.getPassword());
             ps.setInt(4, user.getRole().getId());
             ps.setString(5, user.getEmail());
-            updated = ps.executeUpdate() !=0;
+            updated = ps.executeUpdate() != 0;
         } finally {
             DBUtil.closePreparedStatement(ps);
             cp.freeConnection(con);
         }
-        
+
         return updated;
     }
 
@@ -132,17 +133,16 @@ public class UserDB {
         String sql = "UPDATE user SET active = 0 WHERE email = ?";
 
         boolean deleted;
-        
+
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, user.getEmail());
-            deleted = ps.executeUpdate() !=0;
+            deleted = ps.executeUpdate() != 0;
         } finally {
             DBUtil.closePreparedStatement(ps);
             cp.freeConnection(con);
         }
         return deleted;
     }
-    
 
 }

@@ -14,7 +14,7 @@ public class UserService {
     }
     
     public List<User> getAll() throws Exception {
-        List<User> users = userDB.getAll();
+        List<User> users = this.userDB.getAll();
         return users;
     }
     
