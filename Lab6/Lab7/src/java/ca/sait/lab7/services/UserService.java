@@ -1,8 +1,8 @@
-package ca.sait.lab6.services;
+package ca.sait.lab7.services;
 
-import ca.sait.lab6.dataaccess.UserDB;
-import ca.sait.lab6.modules.Role;
-import ca.sait.lab6.modules.User;
+import ca.sait.lab7.dataaccess.UserDB;
+import ca.sait.lab7.modules.Role;
+import ca.sait.lab7.modules.User;
 import java.util.List;
 
 public class UserService {
