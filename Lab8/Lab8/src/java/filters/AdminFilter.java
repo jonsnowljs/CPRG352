@@ -39,8 +39,10 @@ public class AdminFilter implements Filter {
 
         String email = (String) session.getAttribute("email");
         AccountService accountService = new AccountService();
+        Role role = accountService.getRole(email);
+        
 
-        if (accountService.getRole(email).getRoleId() != 1) {
+        if (role.getRoleId() != 1) {
             httpResponse.sendRedirect("notes");
             return;
         } else {

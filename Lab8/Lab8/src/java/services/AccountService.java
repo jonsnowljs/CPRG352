@@ -26,6 +26,7 @@ public class AccountService {
         try {
             User user = userDB.get(email);
             Role role = user.getRole();
+            return role;
         } catch (Exception e) {
         }
 
