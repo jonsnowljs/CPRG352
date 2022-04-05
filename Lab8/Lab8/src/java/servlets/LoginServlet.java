@@ -6,14 +6,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import models.User;
+import services.AccountService;
 
 public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        this.getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        session.invalidate(); // just by going to the login page the user is logged out :-) 
+        
+        getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
     }
 
     @Override
@@ -21,11 +25,22 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-
-        if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
-            request.setAttribute("message", "E-mail add/or password is missing.");
-            this.getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+        
+        AccountService as = new AccountService();
+        User user = as.login(email, password);
+        
+        if (user == null) {
+            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
             return;
+        }
+        
+        HttpSession session = request.getSession();
+        session.setAttribute("email", email);
+        
+        if (user.getRole().getRoleId() == 1) {
+            response.sendRedirect("admin");
+        } else {
+            response.sendRedirect("notes");
         }
     }
 }
