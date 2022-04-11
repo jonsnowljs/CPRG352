@@ -3,6 +3,7 @@ package services;
 import dataaccess.UserDB;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.User;
@@ -33,5 +34,11 @@ public class AccountService {
         }
         
         return null;
+    }
+    
+    public void resetPassword(String email, String path, String url) {
+        String uuid = UUID.randomUUID().toString();
+        String link = url + "?uuid=" + uuid;
+        
     }
 }
