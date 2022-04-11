@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -43,23 +44,29 @@ public class GmailService {
             Logger.getLogger(GmailService.class.getName()).log(Level.SEVERE, null, e);
         }
 
-        sendMail(to, subject, body, true);
+       sendMail(to, subject, body, true);
     }
 
     public static void sendMail(String to, String subject, String body, boolean bodyIsHTML) throws MessagingException, NamingException {
         Context env = (Context) new InitialContext().lookup("java:comp/env");
-        String username = (String) env.lookup("webmail-username");
-        String password = (String) env.lookup("webmail-password");
-
+        final String username = (String) env.lookup("webmail-username");
+        final String password = (String) env.lookup("webmail-password");
         Properties props = new Properties();
-        props.put("mail.transport.protocol", "smtps");
-        props.put("mail.smtps.host", "smtp.gmail.com");
-        props.put("mail.smtps.port", 465);
-        props.put("mail.smtps.auth", "true");
-        props.put("mail.smtps.quitwait", "false");
-        Session session = Session.getDefaultInstance(props);
+        
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable","true");
+        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+       
+        Session session = Session.getInstance(props,
+            new javax.mail.Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(username, password);
+                }
+            }
+        );
         session.setDebug(true);
-
         // create a message
         Message message = new MimeMessage(session);
         message.setSubject(subject);
@@ -68,13 +75,11 @@ public class GmailService {
         } else {
             message.setText(body);
         }
-
         // address the message
         Address fromAddress = new InternetAddress(username);
         Address toAddress = new InternetAddress(to);
         message.setFrom(fromAddress);
         message.setRecipient(Message.RecipientType.TO, toAddress);
-
         // send the message
         Transport transport = session.getTransport();
         transport.connect(username, password);

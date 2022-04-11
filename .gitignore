@@ -53,3 +53,5 @@ lab2/HelloWorld
 /Lab83/Lab8/nbproject/private/
 /Lab9/Lab9/nbproject/private/
 /Lab9/Lab9/build/
+Lab9/Lab9/web/WEB-INF/web.xml
+*.xml
