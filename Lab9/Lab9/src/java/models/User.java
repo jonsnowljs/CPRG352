@@ -144,10 +144,10 @@ public class User implements Serializable {
         return resetPasswordUuid;
     }
 
-    public void setUuid(String uuid) {
-        this.resetPasswordUuid = resetPasswordUuid;
+
+    public void setResetPasswordUuid(String uuid) {
+        this.resetPasswordUuid = uuid;
     }
-    
     
 
     @Override
@@ -175,8 +175,5 @@ public class User implements Serializable {
         return "models.User[ email=" + email + " ]";
     }
 
-    public void setResetPasswordUuid(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
 }
