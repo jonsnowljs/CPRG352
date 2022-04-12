@@ -21,7 +21,8 @@ public class UserDB {
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
 
         try {
-            User user = em.find(User.class, uuid);
+            String email =(String) em.createNativeQuery("Select email from user u where u.reset_password_uuid = (?);").setParameter(1, uuid).getSingleResult();
+            User user = em.find(User.class, email);
             return user;
         } finally {
             em.close();

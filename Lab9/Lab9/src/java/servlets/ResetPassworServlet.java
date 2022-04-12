@@ -42,13 +42,14 @@ public class ResetPassworServlet extends HttpServlet {
         String url = request.getRequestURL().toString();
         String email = request.getParameter("email");
         String uuid = request.getParameter("uuid");
+        String password = request.getParameter("password");
 
         AccountService as = new AccountService();
 
         if (uuid == null) {
             as.resetPassword(email, path, url);
         } else {
-            as.changePassword(uuid, path);
+            as.changePassword(uuid, password);
         }
 
     }
