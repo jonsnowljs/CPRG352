@@ -40,5 +40,42 @@ public class AccountService {
         String uuid = UUID.randomUUID().toString();
         String link = url + "?uuid=" + uuid;
         
+        UserDB userDB = new UserDB();
+
+        
+        try {
+            User user = userDB.get(email);
+            if (user != null) {
+                Logger.getLogger(AccountService.class.getName()).log(Level.INFO, "Successful login by {0}", email);
+                
+                String to = user.getEmail();
+                String subject = "NotesKeeper Password";
+                String template = path + "/emailtemplates/resetpassword.html";
+                
+                HashMap<String, String> tags = new HashMap<>();
+                tags.put("firstname", user.getFirstName());
+                tags.put("lastname", user.getLastName());
+                tags.put("link", link);
+                
+                GmailService.sendMail(to, subject, template, tags);
+
+            }
+        } catch (Exception e) {
+        }
+        
     }
+    
+       public boolean changePassword(String uuid, String password) {
+       UserDB userDB = new UserDB();
+        try {
+            User user = userDB.getByUUID(uuid);
+            user.setPassword(password);
+            user.setResetPasswordUuid(null);
+            userDB.update(user);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
 }

@@ -35,7 +35,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.active = :active")
     , @NamedQuery(name = "User.findByFirstName", query = "SELECT u FROM User u WHERE u.firstName = :firstName")
     , @NamedQuery(name = "User.findByLastName", query = "SELECT u FROM User u WHERE u.lastName = :lastName")
-    , @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password")})
+    , @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password")
+    , @NamedQuery(name = "User.findByEmailByUUID", query = "SELECT u FROM User u WHERE u.resetPasswordUuid = :resetPasswordUuid")
+
+})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -60,6 +63,9 @@ public class User implements Serializable {
     @JoinColumn(name = "role", referencedColumnName = "role_id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Role role;
+    @Basic(optional = true)
+    @Column(name = "reset_password_uuid")
+    private String resetPasswordUuid;
 
     public User() {
     }
@@ -68,12 +74,13 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public User(String email, boolean active, String firstName, String lastName, String password) {
+    public User(String email, boolean active, String firstName, String lastName, String password, String resetPasswordUuid) {
         this.email = email;
         this.active = active;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
+        this.resetPasswordUuid = resetPasswordUuid;
     }
 
     public String getEmail() {
@@ -133,6 +140,16 @@ public class User implements Serializable {
         this.role = role;
     }
 
+    public String getUuid() {
+        return resetPasswordUuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.resetPasswordUuid = resetPasswordUuid;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -157,5 +174,9 @@ public class User implements Serializable {
     public String toString() {
         return "models.User[ email=" + email + " ]";
     }
-    
+
+    public void setResetPasswordUuid(Object object) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
