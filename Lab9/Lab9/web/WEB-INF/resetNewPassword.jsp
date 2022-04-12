@@ -10,7 +10,7 @@
         <form action="reset" method="post">
             New Password: <input type="text" name="password" value="${password}"><br>
             <input type="submit" value="Submit">
-            <input name="uuid" value=<%= request.getAttribute("uuid")%> hidden>
+            <input type="text" name="uuid" value="${uuidjsp}" hidden>
         </form>
     </body>
 </html>

@@ -27,9 +27,9 @@ public class ResetPassworServlet extends HttpServlet {
         String uuid = request.getParameter("uuid");
 
         if (uuid != null) {
+            request.setAttribute("uuidjsp", uuid);
             getServletContext().getRequestDispatcher("/WEB-INF/resetNewPassword.jsp").forward(request, response);
         } else {
-            request.setAttribute("uuid", uuid);
             getServletContext().getRequestDispatcher("/WEB-INF/reset.jsp").forward(request, response);
         }
 
