@@ -41,6 +41,7 @@ public class AccountService {
         String link = url + "?uuid=" + uuid;
         
         UserDB userDB = new UserDB();
+        userDB.setUUID(uuid, email);
 
         
         try {

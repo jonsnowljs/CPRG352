@@ -27,10 +27,11 @@ public class ResetPassworServlet extends HttpServlet {
         String uuid = request.getParameter("uuid");
 
         if (uuid != null) {
-            getServletContext().getRequestDispatcher("/WEB-INF/restNewPassword.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/WEB-INF/resetNewPassword.jsp").forward(request, response);
+        } else {
+            request.setAttribute("uuid", uuid);
+            getServletContext().getRequestDispatcher("/WEB-INF/reset.jsp").forward(request, response);
         }
-
-        getServletContext().getRequestDispatcher("/WEB-INF/reset.jsp").forward(request, response);
 
     }
 
@@ -40,12 +41,15 @@ public class ResetPassworServlet extends HttpServlet {
         String path = getServletContext().getRealPath("/WEB-INF");
         String url = request.getRequestURL().toString();
         String email = request.getParameter("email");
-        
+        String uuid = request.getParameter("uuid");
 
         AccountService as = new AccountService();
-        
 
-        as.resetPassword(email, path, url);
+        if (uuid == null) {
+            as.resetPassword(email, path, url);
+        } else {
+            as.changePassword(uuid, path);
+        }
 
     }
 

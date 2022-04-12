@@ -1,6 +1,7 @@
 package dataaccess;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import models.User;
 
 public class UserDB {
@@ -36,5 +37,12 @@ public class UserDB {
         } finally {
             em.close();
         }
+    }
+
+    public void setUUID(String uuid, String email) {
+        EntityManager em = DBUtil.getEmFactory().createEntityManager();
+        em.getTransaction().begin();
+        em.createNativeQuery("UPDATE user SET reset_password_uuid = (?) Where email = (?);").setParameter(1, uuid).setParameter(2, email).executeUpdate();
+        em.getTransaction().commit();
     }
 }
